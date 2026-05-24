@@ -20,6 +20,11 @@ export function BuildingLabels({ positioned }: Props) {
     return m;
   }, [positioned]);
 
+  const entryPins = useMemo(
+    () => positioned.filter((p) => p.file.role === "entry"),
+    [positioned],
+  );
+
   const hovered = hoveredId ? byId.get(hoveredId) : null;
   const selected = selectedId ? byId.get(selectedId) : null;
 
@@ -27,9 +32,61 @@ export function BuildingLabels({ positioned }: Props) {
 
   return (
     <>
+      {entryPins.map((p) => {
+        const hidden = p.file.id === selectedId || p.file.id === hoveredId;
+        return <EntryPin key={p.file.id} p={p} hidden={hidden} />;
+      })}
       {showHover && <HoverTooltip p={hovered} />}
       {selected && <SelectionLabel p={selected} />}
     </>
+  );
+}
+
+function EntryPin({ p, hidden }: { p: Positioned; hidden: boolean }) {
+  const [x, , z] = p.position;
+  const y = p.dims.height + 1.0;
+  const fileName = p.file.path.split("/").pop() ?? p.file.path;
+
+  return (
+    <Html
+      position={[x, y, z]}
+      center
+      distanceFactor={16}
+      zIndexRange={[30, 20]}
+      pointerEvents="none"
+      style={{ pointerEvents: "none" }}
+    >
+      <div
+        className="pointer-events-none flex -translate-y-1/2 flex-col items-center select-none transition-opacity duration-200"
+        style={{ opacity: hidden ? 0 : 1 }}
+      >
+        <div
+          className="h-2 w-px"
+          style={{
+            background: "linear-gradient(180deg, #fbbf24, transparent)",
+          }}
+        />
+        <div
+          className="flex items-center gap-1.5 rounded-md border px-2 py-1 font-mono text-[10.5px] leading-none whitespace-nowrap"
+          style={{
+            background: "rgba(15, 17, 24, 0.85)",
+            borderColor: "rgba(251, 191, 36, 0.5)",
+            color: "#fde68a",
+            boxShadow: "0 0 14px -2px rgba(251, 191, 36, 0.45)",
+            backdropFilter: "blur(8px)",
+          }}
+        >
+          <span
+            className="h-1.5 w-1.5 rounded-full"
+            style={{
+              backgroundColor: "#fbbf24",
+              boxShadow: "0 0 6px #fbbf24",
+            }}
+          />
+          <span className="font-medium">{fileName}</span>
+        </div>
+      </div>
+    </Html>
   );
 }
 

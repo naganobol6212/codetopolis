@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import type { Codebase } from "@/lib/types";
 import { useSelectionStore } from "@/lib/store";
-import { roleColor, roleLabel } from "@/lib/roles";
+import { ROLE_STYLES, roleColor, roleLabel } from "@/lib/roles";
 
 type Props = {
   codebase: Codebase;
@@ -80,6 +80,9 @@ export function FileDetailPanel({ codebase }: Props) {
                   {dirName}
                 </div>
               )}
+              <div className="mt-2 text-[11px] leading-snug text-[var(--text-muted)]">
+                {ROLE_STYLES[file.role].description}
+              </div>
             </div>
             <button
               type="button"
