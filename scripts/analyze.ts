@@ -4,7 +4,33 @@ import * as fs from "node:fs";
 
 const ROOT = path.resolve(__dirname, "..");
 const SRC_DIR = path.join(ROOT, "src");
+const SCRIPTS_DIR = path.join(ROOT, "scripts");
 const OUT_FILE = path.join(ROOT, "public", "codebase.json");
+
+type FileRole =
+  | "entry"
+  | "route"
+  | "component"
+  | "lib"
+  | "config"
+  | "test"
+  | "type"
+  | "other";
+
+const APP_ROUTER_ENTRY_NAMES = new Set([
+  "page.tsx",
+  "page.ts",
+  "layout.tsx",
+  "layout.ts",
+  "template.tsx",
+  "template.ts",
+  "error.tsx",
+  "loading.tsx",
+  "not-found.tsx",
+  "default.tsx",
+]);
+
+const ROUTE_HANDLER_NAMES = new Set(["route.ts", "route.tsx"]);
 
 type FileNode = {
   id: string;
@@ -12,6 +38,7 @@ type FileNode = {
   loc: number;
   functions: number;
   imports: string[];
+  role: FileRole;
 };
 
 type Edge = {
@@ -47,6 +74,34 @@ function countFunctions(sf: SourceFile): number {
   );
 }
 
+function classifyRole(id: string): FileRole {
+  const base = id.split("/").pop() ?? id;
+  const lower = id.toLowerCase();
+
+  if (lower.endsWith(".d.ts")) return "type";
+  if (/\.(test|spec)\.(t|j)sx?$/.test(lower) || lower.includes("/__tests__/")) {
+    return "test";
+  }
+  if (/\.config\.(t|j)sx?$/.test(lower) || base.startsWith("next.config.")) {
+    return "config";
+  }
+  if (id.startsWith("src/app/")) {
+    if (APP_ROUTER_ENTRY_NAMES.has(base)) return "entry";
+    if (ROUTE_HANDLER_NAMES.has(base)) return "route";
+  }
+  if (id.startsWith("scripts/")) return "entry";
+  if (id.includes("/components/")) return "component";
+  if (
+    id.includes("/lib/") ||
+    id.includes("/utils/") ||
+    id.includes("/hooks/") ||
+    id.includes("/helpers/")
+  ) {
+    return "lib";
+  }
+  return "other";
+}
+
 function resolveImport(
   fromFile: SourceFile,
   moduleSpecifier: string,
@@ -80,6 +135,7 @@ function analyze(): Codebase {
   project.addSourceFilesAtPaths([
     `${SRC_DIR}/**/*.ts`,
     `${SRC_DIR}/**/*.tsx`,
+    `${SCRIPTS_DIR}/**/*.ts`,
   ]);
 
   const sourceFiles = project.getSourceFiles();
@@ -99,6 +155,7 @@ function analyze(): Codebase {
       loc: countLines(sf.getFullText()),
       functions: countFunctions(sf),
       imports,
+      role: classifyRole(id),
     });
 
     for (const spec of imports) {

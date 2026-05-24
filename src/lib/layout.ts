@@ -12,9 +12,21 @@ export type Positioned = {
 };
 
 export function computeDims(file: FileNode): BuildingDims {
-  const height = Math.max(0.5, file.loc / 20);
-  const width = Math.max(0.8, Math.min(3, 0.8 + file.functions * 0.25));
-  return { height, width };
+  const baseHeight = Math.max(0.5, file.loc / 20);
+  const baseWidth = Math.max(0.8, Math.min(3, 0.8 + file.functions * 0.25));
+
+  switch (file.role) {
+    case "config":
+      return { height: Math.min(baseHeight, 1.0), width: Math.max(baseWidth, 1.6) };
+    case "test":
+      return { height: baseHeight * 0.6, width: baseWidth };
+    case "type":
+      return { height: Math.min(baseHeight, 0.8), width: Math.max(baseWidth, 1.2) };
+    case "entry":
+      return { height: Math.max(baseHeight, 1.4), width: baseWidth };
+    default:
+      return { height: baseHeight, width: baseWidth };
+  }
 }
 
 export function gridPosition(

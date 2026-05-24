@@ -4,17 +4,11 @@ import { Html } from "@react-three/drei";
 import { useMemo } from "react";
 import type { Positioned } from "@/lib/layout";
 import { useSelectionStore } from "@/lib/store";
+import { roleColor, roleLabel } from "@/lib/roles";
 
 type Props = {
   positioned: Positioned[];
 };
-
-function locToAccent(loc: number): string {
-  if (loc < 50) return "#22d3ee";
-  if (loc < 150) return "#a78bfa";
-  if (loc < 400) return "#f472b6";
-  return "#ef4444";
-}
 
 export function BuildingLabels({ positioned }: Props) {
   const hoveredId = useSelectionStore((s) => s.hoveredId);
@@ -29,8 +23,6 @@ export function BuildingLabels({ positioned }: Props) {
   const hovered = hoveredId ? byId.get(hoveredId) : null;
   const selected = selectedId ? byId.get(selectedId) : null;
 
-  // Suppress hover label when the same building is already selected — the
-  // bigger selection label takes precedence.
   const showHover = hovered && hovered.file.id !== selectedId;
 
   return (
@@ -45,7 +37,7 @@ function HoverTooltip({ p }: { p: Positioned }) {
   const [x, , z] = p.position;
   const y = p.dims.height + 0.4;
   const fileName = p.file.path.split("/").pop() ?? p.file.path;
-  const accent = locToAccent(p.file.loc);
+  const accent = roleColor(p.file.role);
 
   return (
     <Html
@@ -67,8 +59,11 @@ function HoverTooltip({ p }: { p: Positioned }) {
           />
           <span className="font-medium">{fileName}</span>
           <span className="text-[var(--text-muted)]">·</span>
-          <span className="tabular-nums text-[var(--text-muted)]">
-            {p.file.loc} loc
+          <span
+            className="uppercase tracking-wider text-[9.5px]"
+            style={{ color: accent }}
+          >
+            {roleLabel(p.file.role)}
           </span>
         </div>
       </div>
@@ -80,7 +75,7 @@ function SelectionLabel({ p }: { p: Positioned }) {
   const [x, , z] = p.position;
   const y = p.dims.height + 0.9;
   const fileName = p.file.path.split("/").pop() ?? p.file.path;
-  const accent = locToAccent(p.file.loc);
+  const accent = roleColor(p.file.role);
 
   return (
     <Html
@@ -92,7 +87,6 @@ function SelectionLabel({ p }: { p: Positioned }) {
       style={{ pointerEvents: "none" }}
     >
       <div className="pointer-events-none flex -translate-y-1/2 flex-col items-center select-none">
-        {/* Tether line down to the building */}
         <div
           className="h-3 w-px"
           style={{
@@ -117,6 +111,15 @@ function SelectionLabel({ p }: { p: Positioned }) {
               style={{ backgroundColor: accent, color: accent }}
             />
             <span className="font-semibold text-foreground">{fileName}</span>
+            <span
+              className="rounded px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider"
+              style={{
+                backgroundColor: `${accent}22`,
+                color: accent,
+              }}
+            >
+              {roleLabel(p.file.role)}
+            </span>
           </div>
           <div className="mt-1 flex items-center gap-3 text-[10px] tabular-nums text-[var(--text-muted)]">
             <span>

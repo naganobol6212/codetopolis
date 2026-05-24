@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import type { Codebase } from "@/lib/types";
 import { useSelectionStore } from "@/lib/store";
+import { roleColor, roleLabel } from "@/lib/roles";
 
 type Props = {
   codebase: Codebase;
@@ -35,7 +36,7 @@ export function FileDetailPanel({ codebase }: Props) {
 
   if (!file) return null;
 
-  const accent = locToAccent(file.loc);
+  const accent = roleColor(file.role);
   const fileName = file.path.split("/").pop() ?? file.path;
   const dirName = file.path.slice(0, file.path.length - fileName.length);
 
@@ -60,7 +61,16 @@ export function FileDetailPanel({ codebase }: Props) {
                   className="h-1.5 w-1.5 rounded-full shadow-[0_0_8px_currentColor]"
                   style={{ backgroundColor: accent, color: accent }}
                 />
-                File
+                <span>File</span>
+                <span
+                  className="ml-1 rounded px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider"
+                  style={{
+                    backgroundColor: `${accent}22`,
+                    color: accent,
+                  }}
+                >
+                  {roleLabel(file.role)}
+                </span>
               </div>
               <div className="mt-1.5 font-mono text-[13px] font-semibold leading-tight text-foreground break-all">
                 {fileName}
@@ -184,13 +194,6 @@ function Section({
       )}
     </div>
   );
-}
-
-function locToAccent(loc: number): string {
-  if (loc < 50) return "#22d3ee";
-  if (loc < 150) return "#a78bfa";
-  if (loc < 400) return "#f472b6";
-  return "#ef4444";
 }
 
 function CloseIcon() {

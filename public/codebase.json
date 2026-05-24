@@ -1,6 +1,18 @@
 {
   "files": [
     {
+      "id": "scripts/analyze.ts",
+      "path": "scripts/analyze.ts",
+      "loc": 186,
+      "functions": 10,
+      "imports": [
+        "ts-morph",
+        "node:path",
+        "node:fs"
+      ],
+      "role": "entry"
+    },
+    {
       "id": "src/app/layout.tsx",
       "path": "src/app/layout.tsx",
       "loc": 34,
@@ -9,7 +21,8 @@
         "next",
         "next/font/google",
         "./globals.css"
-      ]
+      ],
+      "role": "entry"
     },
     {
       "id": "src/app/page.tsx",
@@ -23,32 +36,38 @@
         "@/components/ui/LeftSidebar",
         "@/components/ui/FooterHint",
         "@/lib/codebase"
-      ]
+      ],
+      "role": "entry"
     },
     {
       "id": "src/components/Building.tsx",
       "path": "src/components/Building.tsx",
-      "loc": 73,
-      "functions": 10,
+      "loc": 105,
+      "functions": 11,
       "imports": [
         "react",
         "@react-three/fiber",
+        "three",
         "@/lib/types",
         "@/lib/store",
-        "@/lib/layout"
-      ]
+        "@/lib/layout",
+        "@/lib/roles"
+      ],
+      "role": "component"
     },
     {
       "id": "src/components/BuildingLabels.tsx",
       "path": "src/components/BuildingLabels.tsx",
-      "loc": 135,
-      "functions": 7,
+      "loc": 138,
+      "functions": 6,
       "imports": [
         "@react-three/drei",
         "react",
         "@/lib/layout",
-        "@/lib/store"
-      ]
+        "@/lib/store",
+        "@/lib/roles"
+      ],
+      "role": "component"
     },
     {
       "id": "src/components/CityScene.tsx",
@@ -67,7 +86,8 @@
         "./Building",
         "./BuildingLabels",
         "./DependencyLines"
-      ]
+      ],
+      "role": "component"
     },
     {
       "id": "src/components/DependencyLines.tsx",
@@ -80,18 +100,21 @@
         "@/lib/types",
         "@/lib/layout",
         "@/lib/store"
-      ]
+      ],
+      "role": "component"
     },
     {
       "id": "src/components/FileDetailPanel.tsx",
       "path": "src/components/FileDetailPanel.tsx",
-      "loc": 212,
-      "functions": 19,
+      "loc": 215,
+      "functions": 18,
       "imports": [
         "react",
         "@/lib/types",
-        "@/lib/store"
-      ]
+        "@/lib/store",
+        "@/lib/roles"
+      ],
+      "role": "component"
     },
     {
       "id": "src/lib/codebase.ts",
@@ -102,16 +125,28 @@
         "node:fs/promises",
         "node:path",
         "./types"
-      ]
+      ],
+      "role": "lib"
     },
     {
       "id": "src/lib/layout.ts",
       "path": "src/lib/layout.ts",
-      "loc": 42,
+      "loc": 54,
       "functions": 4,
       "imports": [
         "./types"
-      ]
+      ],
+      "role": "lib"
+    },
+    {
+      "id": "src/lib/roles.ts",
+      "path": "src/lib/roles.ts",
+      "loc": 70,
+      "functions": 2,
+      "imports": [
+        "./types"
+      ],
+      "role": "lib"
     },
     {
       "id": "src/lib/store.ts",
@@ -120,30 +155,35 @@
       "functions": 3,
       "imports": [
         "zustand"
-      ]
+      ],
+      "role": "lib"
     },
     {
       "id": "src/lib/types.ts",
       "path": "src/lib/types.ts",
-      "loc": 19,
+      "loc": 30,
       "functions": 0,
-      "imports": []
+      "imports": [],
+      "role": "lib"
     },
     {
       "id": "src/components/ui/FooterHint.tsx",
       "path": "src/components/ui/FooterHint.tsx",
       "loc": 38,
       "functions": 3,
-      "imports": []
+      "imports": [],
+      "role": "component"
     },
     {
       "id": "src/components/ui/LeftSidebar.tsx",
       "path": "src/components/ui/LeftSidebar.tsx",
-      "loc": 92,
-      "functions": 4,
+      "loc": 86,
+      "functions": 5,
       "imports": [
-        "@/lib/types"
-      ]
+        "@/lib/types",
+        "@/lib/roles"
+      ],
+      "role": "component"
     },
     {
       "id": "src/components/ui/TopBar.tsx",
@@ -152,7 +192,8 @@
       "functions": 5,
       "imports": [
         "@/lib/types"
-      ]
+      ],
+      "role": "component"
     }
   ],
   "edges": [
@@ -175,7 +216,11 @@
     {
       "from": "src/lib/layout.ts",
       "to": "src/lib/types.ts"
+    },
+    {
+      "from": "src/lib/roles.ts",
+      "to": "src/lib/types.ts"
     }
   ],
-  "generatedAt": "2026-05-24T10:15:52.210Z"
+  "generatedAt": "2026-05-24T11:37:32.639Z"
 }
