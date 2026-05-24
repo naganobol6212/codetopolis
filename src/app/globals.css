@@ -2,7 +2,15 @@
 
 :root {
   --background: #05060a;
-  --foreground: #ededed;
+  --foreground: #e6e8ec;
+
+  --glass-fill: rgba(15, 17, 24, 0.55);
+  --glass-fill-strong: rgba(15, 17, 24, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-strong: rgba(255, 255, 255, 0.14);
+
+  --text-muted: #6e7280;
+  --text-faint: #3a3d45;
 }
 
 @theme inline {
@@ -20,8 +28,93 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-feature-settings: "cv11", "ss01", "ss03";
 }
 
 canvas {
   display: block;
+}
+
+/* Glass surface — dark frosted panel with subtle inner gradient. */
+.glass {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.01) 40%,
+      rgba(0, 0, 0, 0.15) 100%
+    ),
+    var(--glass-fill);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+    0 8px 32px -8px rgba(0, 0, 0, 0.6),
+    0 1px 0 0 rgba(255, 255, 255, 0.04) inset;
+}
+
+.glass-strong {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(0, 0, 0, 0.2) 100%
+    ),
+    var(--glass-fill-strong);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid var(--glass-border-strong);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+    0 12px 48px -12px rgba(0, 0, 0, 0.7);
+}
+
+/* Subtle hover glow on interactive surfaces. */
+.glass-interactive {
+  transition:
+    border-color 200ms ease,
+    background-color 200ms ease,
+    transform 200ms ease;
+}
+.glass-interactive:hover {
+  border-color: var(--glass-border-strong);
+}
+
+/* Section label — Linear-style uppercase micro caps. */
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* Panel entrance animation. */
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-panel-in {
+  animation: panel-in 240ms ease-out both;
+}
+
+/* Slow pulse used for the live status dot. */
+@keyframes soft-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.animate-soft-pulse {
+  animation: soft-pulse 2.4s ease-in-out infinite;
 }

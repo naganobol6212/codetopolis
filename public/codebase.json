@@ -14,11 +14,14 @@
     {
       "id": "src/app/page.tsx",
       "path": "src/app/page.tsx",
-      "loc": 24,
+      "loc": 21,
       "functions": 1,
       "imports": [
         "@/components/CityScene",
         "@/components/FileDetailPanel",
+        "@/components/ui/TopBar",
+        "@/components/ui/LeftSidebar",
+        "@/components/ui/FooterHint",
         "@/lib/codebase"
       ]
     },
@@ -69,8 +72,8 @@
     {
       "id": "src/components/FileDetailPanel.tsx",
       "path": "src/components/FileDetailPanel.tsx",
-      "loc": 114,
-      "functions": 16,
+      "loc": 212,
+      "functions": 19,
       "imports": [
         "react",
         "@/lib/types",
@@ -112,6 +115,31 @@
       "loc": 19,
       "functions": 0,
       "imports": []
+    },
+    {
+      "id": "src/components/ui/FooterHint.tsx",
+      "path": "src/components/ui/FooterHint.tsx",
+      "loc": 38,
+      "functions": 3,
+      "imports": []
+    },
+    {
+      "id": "src/components/ui/LeftSidebar.tsx",
+      "path": "src/components/ui/LeftSidebar.tsx",
+      "loc": 92,
+      "functions": 4,
+      "imports": [
+        "@/lib/types"
+      ]
+    },
+    {
+      "id": "src/components/ui/TopBar.tsx",
+      "path": "src/components/ui/TopBar.tsx",
+      "loc": 109,
+      "functions": 5,
+      "imports": [
+        "@/lib/types"
+      ]
     }
   ],
   "edges": [
@@ -132,5 +160,5 @@
       "to": "src/lib/types.ts"
     }
   ],
-  "generatedAt": "2026-05-24T09:24:01.982Z"
+  "generatedAt": "2026-05-24T10:01:00.483Z"
 }
