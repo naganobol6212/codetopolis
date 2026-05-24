@@ -19,6 +19,7 @@ export function Building({ file, position, dims }: Props) {
   const hoveredId = useSelectionStore((s) => s.hoveredId);
   const setSelected = useSelectionStore((s) => s.setSelected);
   const setHovered = useSelectionStore((s) => s.setHovered);
+  const visited = useSelectionStore((s) => s.visitedIds.has(file.id));
 
   const color = useMemo(() => roleColor(file.role), [file.role]);
   const isEntry = file.role === "entry";
@@ -27,7 +28,11 @@ export function Building({ file, position, dims }: Props) {
   const isSelected = selectedId === file.id;
   const isHovered = hoveredId === file.id;
 
-  const baseEmissive = isMuted ? 0.18 : isEntry ? 0.9 : 0.45;
+  // Visited buildings glow slightly brighter than untouched ones — enough
+  // to feel a difference as you click around, but not so dark that the
+  // unexplored city becomes unreadable.
+  const discoveryGain = visited || isEntry ? 1.15 : 0.85;
+  const baseEmissive = (isMuted ? 0.18 : isEntry ? 0.9 : 0.45) * discoveryGain;
   const emissiveIntensity = isSelected
     ? Math.max(baseEmissive, 2.4)
     : isHovered

@@ -9,13 +9,14 @@ import {
   SMAA,
 } from "@react-three/postprocessing";
 import * as THREE from "three";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import type { Codebase } from "@/lib/types";
 import { layoutFiles, type Positioned } from "@/lib/layout";
 import { useSelectionStore } from "@/lib/store";
 import { Building } from "./Building";
 import { BuildingLabels } from "./BuildingLabels";
 import { DependencyLines } from "./DependencyLines";
+import { CameraController } from "./CameraController";
 
 type Props = {
   codebase: Codebase;
@@ -58,7 +59,6 @@ function computeBounds(positioned: Positioned[]): Bounds {
 
 export function CityScene({ codebase }: Props) {
   const setSelected = useSelectionStore((s) => s.setSelected);
-  const selectedId = useSelectionStore((s) => s.selectedId);
 
   const positioned = useMemo(
     () => layoutFiles(codebase.files, GRID_SPACING),
@@ -83,18 +83,6 @@ export function CityScene({ codebase }: Props) {
       fov: 45,
     };
   }, [bounds]);
-
-  // Auto-select the home page on first mount so the detail panel shows
-  // immediately rather than greeting the user with an empty viewport.
-  useEffect(() => {
-    if (selectedId) return;
-    const home =
-      codebase.files.find((f) => f.path === "src/app/page.tsx") ??
-      codebase.files.find((f) => f.role === "entry");
-    if (home) setSelected(home.id);
-    // intentionally only on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Canvas
@@ -179,10 +167,15 @@ export function CityScene({ codebase }: Props) {
       <OrbitControls
         makeDefault
         enableDamping
-        target={camera.target}
         maxPolarAngle={Math.PI / 2.1}
         minDistance={6}
         maxDistance={Math.max(60, bounds.size * 5)}
+      />
+
+      <CameraController
+        positioned={positioned}
+        homeTarget={camera.target}
+        homePosition={camera.position}
       />
 
       <EffectComposer multisampling={0}>
