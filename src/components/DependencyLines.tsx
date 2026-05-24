@@ -66,10 +66,10 @@ export function DependencyLines({ edges, positioned }: Props) {
           <Line
             key={r.key}
             points={r.points}
-            color={isActive ? "#38bdf8" : "#475569"}
+            color={isActive ? "#7dd3fc" : "#1e293b"}
             lineWidth={isActive ? 2.5 : 1}
             transparent
-            opacity={isDimmed ? 0.15 : isActive ? 1 : 0.6}
+            opacity={isDimmed ? 0.08 : isActive ? 1 : 0.35}
           />
         );
       })}

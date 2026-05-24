@@ -13,9 +13,9 @@ type Props = {
 };
 
 function locToColor(loc: number): string {
-  if (loc < 50) return "#4ade80";
-  if (loc < 150) return "#facc15";
-  if (loc < 400) return "#fb923c";
+  if (loc < 50) return "#22d3ee";
+  if (loc < 150) return "#a78bfa";
+  if (loc < 400) return "#f472b6";
   return "#ef4444";
 }
 
@@ -29,7 +29,7 @@ export function Building({ file, position, dims }: Props) {
 
   const isSelected = selectedId === file.id;
   const isHovered = hoveredId === file.id;
-  const emissiveIntensity = isSelected ? 0.7 : isHovered ? 0.3 : 0;
+  const emissiveIntensity = isSelected ? 2.4 : isHovered ? 1.2 : 0.45;
 
   const [x, , z] = position;
   const { height, width } = dims;
@@ -64,6 +64,8 @@ export function Building({ file, position, dims }: Props) {
         color={color}
         emissive={color}
         emissiveIntensity={emissiveIntensity}
+        metalness={0.55}
+        roughness={0.35}
       />
     </mesh>
   );

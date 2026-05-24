@@ -25,7 +25,7 @@
     {
       "id": "src/components/Building.tsx",
       "path": "src/components/Building.tsx",
-      "loc": 71,
+      "loc": 73,
       "functions": 10,
       "imports": [
         "react",
@@ -38,11 +38,13 @@
     {
       "id": "src/components/CityScene.tsx",
       "path": "src/components/CityScene.tsx",
-      "loc": 70,
+      "loc": 137,
       "functions": 5,
       "imports": [
         "@react-three/fiber",
         "@react-three/drei",
+        "@react-three/postprocessing",
+        "three",
         "react",
         "@/lib/types",
         "@/lib/layout",
@@ -130,5 +132,5 @@
       "to": "src/lib/types.ts"
     }
   ],
-  "generatedAt": "2026-05-24T08:45:52.134Z"
+  "generatedAt": "2026-05-24T09:24:01.982Z"
 }
