@@ -6,8 +6,9 @@ export default async function Home() {
   const codebase = await loadCodebase();
 
   return (
-    <div className="relative flex-1 w-full h-screen">
-      <div className="absolute top-4 left-4 z-10 rounded-md bg-slate-900/80 px-3 py-2 text-sm text-slate-100 shadow">
+    <main className="fixed inset-0 overflow-hidden bg-[#05060a]">
+      <CityScene codebase={codebase} />
+      <div className="pointer-events-none absolute top-4 left-4 z-10 rounded-md bg-slate-900/80 px-3 py-2 text-sm text-slate-100 shadow">
         <div className="font-semibold">codetopolis</div>
         <div className="text-slate-300">
           {codebase.files.length} files · {codebase.edges.length} edges
@@ -16,8 +17,7 @@ export default async function Home() {
           click a building · scroll to zoom · drag to rotate
         </div>
       </div>
-      <CityScene codebase={codebase} />
       <FileDetailPanel codebase={codebase} />
-    </div>
+    </main>
   );
 }

@@ -27,7 +27,7 @@ export function CityScene({ codebase }: Props) {
     <Canvas
       shadows
       camera={{ position: [15, 15, 15], fov: 50 }}
-      style={{ width: "100%", height: "100%", background: "#0f172a" }}
+      style={{ position: "absolute", inset: 0, background: "#0f172a" }}
       onPointerMissed={() => setSelected(null)}
     >
       <ambientLight intensity={0.5} />
