@@ -39,9 +39,21 @@
       ]
     },
     {
+      "id": "src/components/BuildingLabels.tsx",
+      "path": "src/components/BuildingLabels.tsx",
+      "loc": 135,
+      "functions": 7,
+      "imports": [
+        "@react-three/drei",
+        "react",
+        "@/lib/layout",
+        "@/lib/store"
+      ]
+    },
+    {
       "id": "src/components/CityScene.tsx",
       "path": "src/components/CityScene.tsx",
-      "loc": 137,
+      "loc": 140,
       "functions": 5,
       "imports": [
         "@react-three/fiber",
@@ -53,6 +65,7 @@
         "@/lib/layout",
         "@/lib/store",
         "./Building",
+        "./BuildingLabels",
         "./DependencyLines"
       ]
     },
@@ -149,6 +162,10 @@
     },
     {
       "from": "src/components/CityScene.tsx",
+      "to": "src/components/BuildingLabels.tsx"
+    },
+    {
+      "from": "src/components/CityScene.tsx",
       "to": "src/components/DependencyLines.tsx"
     },
     {
@@ -160,5 +177,5 @@
       "to": "src/lib/types.ts"
     }
   ],
-  "generatedAt": "2026-05-24T10:01:00.483Z"
+  "generatedAt": "2026-05-24T10:15:52.210Z"
 }

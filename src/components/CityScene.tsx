@@ -18,6 +18,7 @@ import type { Codebase } from "@/lib/types";
 import { layoutFiles } from "@/lib/layout";
 import { useSelectionStore } from "@/lib/store";
 import { Building } from "./Building";
+import { BuildingLabels } from "./BuildingLabels";
 import { DependencyLines } from "./DependencyLines";
 
 type Props = {
@@ -112,6 +113,8 @@ export function CityScene({ codebase }: Props) {
       ))}
 
       <DependencyLines edges={codebase.edges} positioned={positioned} />
+
+      <BuildingLabels positioned={positioned} />
 
       <OrbitControls
         makeDefault
